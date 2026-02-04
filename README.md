@@ -506,7 +506,7 @@ git push origin main
 
 2. **Create Render account** at [render.com](https://render.com)
 
-3. **Create New Web Service**
+3. **Create New Web Service (My example)** 
    - Connect GitHub repository
    - Name: `kazakh-restaurant-api`
    - Environment: Node
@@ -520,13 +520,25 @@ git push origin main
 
 5. **Deploy**: Click "Create Web Service"
 
-6. **Get URL**: `https://kazakh-restaurant-api.onrender.com`
+6. **Get URL (My example)**: `https://kazakh-restaurant-asset-iglikov.onrender.com`
 
 ### Frontend Deployment
 
 Frontend is served from the same backend via `express.static('public')`, so it deploys automatically with the backend.
 
-**Access your app at:** `https://kazakh-restaurant-api.onrender.com`
+**Access your app at:** `https://kazakh-restaurant-asset-iglikov.onrender.com`
+
+---
+
+## Live Demo
+
+**Application URL:** https://kazakh-restaurant-asset-iglikov.onrender.com/  
+**API Base URL:** https://kazakh-restaurant-asset-iglikov.onrender.com//api  
+**GitHub Repository:** https://github.com/Set001YT/web-backend-final-project
+
+**Test Credentials:**
+- Admin: admin@test.com / admin123
+- User: user@test.com / user123
 
 ---
 
