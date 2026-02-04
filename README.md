@@ -533,7 +533,7 @@ Frontend is served from the same backend via `express.static('public')`, so it d
 ## Live Demo
 
 **Application URL:** https://kazakh-restaurant-asset-iglikov.onrender.com/  
-**API Base URL:** https://kazakh-restaurant-asset-iglikov.onrender.com//api  
+**API Base URL:** https://kazakh-restaurant-asset-iglikov.onrender.com/api  
 **GitHub Repository:** https://github.com/Set001YT/web-backend-final-project
 
 **Test Credentials:**
