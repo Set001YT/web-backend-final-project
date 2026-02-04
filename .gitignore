@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+
+# Environment variables (passwords and secrets!)
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+*.log
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Optional
+.cache/
+dist/
+build/
