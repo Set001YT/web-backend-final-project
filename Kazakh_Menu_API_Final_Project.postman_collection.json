@@ -1,0 +1,717 @@
+{
+  "info": {
+    "_postman_id": "c063ad96-686d-4549-a5c6-d27b1132e5dd",
+    "name": "Assignment 4",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "45837906",
+    "_collection_link": "https://go.postman.co/collection/45837906-c063ad96-686d-4549-a5c6-d27b1132e5dd?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register User",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Test User\",\r\n  \"email\": \"user@test.com\",\r\n  \"password\": \"user123\",\r\n  \"role\": \"user\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/register",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "register"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Register Admin",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Test Admin\",\r\n  \"email\": \"admin@test.com\",\r\n  \"password\": \"admin123\",\r\n  \"role\": \"admin\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/register",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "register"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login User",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"email\": \"user@test.com\",\r\n  \"password\": \"user123\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Menu Items (Public)",
+      "item": [
+        {
+          "name": "GET All Menu Items",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/menu-items",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "menu-items"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET Single Menu Item",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/menu-items/{{menu_item_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "menu-items",
+                "{{menu_item_id}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Menu Items (Admin Protected)",
+      "item": [
+        {
+          "name": "CREATE Menu Item (Admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTc1ZTIwZTMwNjllNDU5YTE4NzFiZTciLCJpYXQiOjE3NjkzMzMyNjIsImV4cCI6MTc2OTkzODA2Mn0.xemzmOhMdss_YR6YSvg0CSN5tVvOH46iMg-fqYckfbA",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Kazakh Et\",\r\n  \"description\": \"Traditional Kazakh dish with boiled meat and flat noodles\",\r\n  \"price\": 35000,\r\n  \"category\": \"Main Courses\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/menu-items",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "menu-items"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CREATE Menu Item (User)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTc1ZTAwZTMwNjllNDU5YTE4NzFiZGMiLCJpYXQiOjE3NjkzMzI3NTAsImV4cCI6MTc2OTkzNzU1MH0.5KmQDmN3kHXzMlMjzOKQvAt8-c2xFiwI-vs-xiI2sOs",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Kazy\",\r\n  \"description\": \"Horse meat sausage\",\r\n  \"price\": 2500,\r\n  \"category\": \"Appetizers\"\r\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/menu-items",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "menu-items"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CREATE Menu Item (No Token)",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Test\",\r\n  \"description\": \"Test description here\",\r\n  \"price\": 1000,\r\n  \"category\": \"Dessert\"\r\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/menu-items",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "menu-items"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UPDATE Menu Item (Admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTc1ZTIwZTMwNjllNDU5YTE4NzFiZTciLCJpYXQiOjE3NjkzMzMyNjIsImV4cCI6MTc2OTkzODA2Mn0.xemzmOhMdss_YR6YSvg0CSN5tVvOH46iMg-fqYckfbA",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Beshbarmak Premium\",\r\n  \"description\": \"Traditional Kazakh dish with premium meat\",\r\n  \"price\": 42000,\r\n  \"category\": \"Main Courses\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/menu-items/{{menu_item_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "menu-items",
+                "{{menu_item_id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE Menu Item (User)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTc1ZTAwZTMwNjllNDU5YTE4NzFiZGMiLCJpYXQiOjE3NjkzMzI3NTAsImV4cCI6MTc2OTkzNzU1MH0.5KmQDmN3kHXzMlMjzOKQvAt8-c2xFiwI-vs-xiI2sOs",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/menu-items/{{menu_item_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "menu-items",
+                "{{menu_item_id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE Menu Item (Admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTc1ZTIwZTMwNjllNDU5YTE4NzFiZTciLCJpYXQiOjE3NjkzMzMyNjIsImV4cCI6MTc2OTkzODA2Mn0.xemzmOhMdss_YR6YSvg0CSN5tVvOH46iMg-fqYckfbA",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/menu-items/{{menu_item_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "menu-items",
+                "{{menu_item_id}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Reviews",
+      "item": [
+        {
+          "name": "GET All Reviews",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/reviews",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "reviews"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CREATE Review (User)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTc1ZTAwZTMwNjllNDU5YTE4NzFiZGMiLCJpYXQiOjE3NjkzMzI3NTAsImV4cCI6MTc2OTkzNzU1MH0.5KmQDmN3kHXzMlMjzOKQvAt8-c2xFiwI-vs-xiI2sOs",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"menuItem\": \"{{menu_item_id}}\",\r\n  \"rating\": 5,\r\n  \"comment\": \"Excellent traditional dish! Highly recommend.\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/reviews",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "reviews"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CREATE Review (No Token)",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"menuItem\": \"{{menu_item_id}}\",\r\n  \"rating\": 4,\r\n  \"comment\": \"Good food\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/reviews",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "reviews"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE Review (User)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTc1ZTAwZTMwNjllNDU5YTE4NzFiZGMiLCJpYXQiOjE3NjkzMzI3NTAsImV4cCI6MTc2OTkzNzU1MH0.5KmQDmN3kHXzMlMjzOKQvAt8-c2xFiwI-vs-xiI2sOs",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/reviews/{{review_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "reviews",
+                "{{review_id}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Orders",
+      "item": [
+        {
+          "name": "GET All Orders (Admin) - All Orders",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTc1ZTIwZTMwNjllNDU5YTE4NzFiZTciLCJpYXQiOjE3NzAxOTc5OTIsImV4cCI6MTc3Mjc4OTk5Mn0.XdMX1blEn7TFkfQ-zy9p2XvCUClLBG92DSxaYJj07wI",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/orders",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "orders"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET All Orders (User) - Only Own",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTc1ZTAwZTMwNjllNDU5YTE4NzFiZGMiLCJpYXQiOjE3NzAxOTc5MjgsImV4cCI6MTc3Mjc4OTkyOH0.un20YRTDiHbgiAD1RSk6P--Z69ddTfsZFTO8WacMeQA",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/orders",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "orders"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CREATE Order (User) - Success",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTc1ZTAwZTMwNjllNDU5YTE4NzFiZGMiLCJpYXQiOjE3NzAxOTc5MjgsImV4cCI6MTc3Mjc4OTkyOH0.un20YRTDiHbgiAD1RSk6P--Z69ddTfsZFTO8WacMeQA",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"items\": [\r\n    {\r\n      \"menuItem\": \"{{menu_item_id}}\",\r\n      \"quantity\": 3\r\n    }\r\n  ]\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/orders",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "orders"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET Single Order (User - Own)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTc1ZTAwZTMwNjllNDU5YTE4NzFiZGMiLCJpYXQiOjE3NzAxOTc5MjgsImV4cCI6MTc3Mjc4OTkyOH0.un20YRTDiHbgiAD1RSk6P--Z69ddTfsZFTO8WacMeQA",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/orders/{{order_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "orders",
+                "{{order_id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UPDATE Order Status (Admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTc1ZTIwZTMwNjllNDU5YTE4NzFiZTciLCJpYXQiOjE3NzAxOTc5OTIsImV4cCI6MTc3Mjc4OTk5Mn0.XdMX1blEn7TFkfQ-zy9p2XvCUClLBG92DSxaYJj07wI",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"status\": \"confirmed\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/orders/{{order_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "orders",
+                "{{order_id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UPDATE Order Status (User)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTc1ZTAwZTMwNjllNDU5YTE4NzFiZGMiLCJpYXQiOjE3NzAxOTc5MjgsImV4cCI6MTc3Mjc4OTkyOH0.un20YRTDiHbgiAD1RSk6P--Z69ddTfsZFTO8WacMeQA",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"status\": \"completed\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/orders/{{order_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "orders",
+                "{{order_id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CREATE Order (No Token)",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"items\": [\r\n    {\r\n      \"menuItem\": \"{{menu_item_id}}\",\r\n      \"quantity\": 1\r\n    }\r\n  ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/orders",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "orders"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": ""
+    },
+    {
+      "key": "user_token",
+      "value": ""
+    },
+    {
+      "key": "admin_token",
+      "value": ""
+    },
+    {
+      "key": "menu_item_id",
+      "value": ""
+    },
+    {
+      "key": "review_id",
+      "value": ""
+    },
+    {
+      "key": "order_id",
+      "value": ""
+    }
+  ]
+}
