@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kazakh Restaurant</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #00abc0 100%, #ffc107 0%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        header {
+            background: linear-gradient(135deg, #00abc9 100%, #ffc107 0%);
+            color: white;
+            padding: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        header h1 { font-size: 2em; }
+        .user-info {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        .cart-badge {
+            position: relative;
+            cursor: pointer;
+        }
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #dc3545;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-primary { background: #ffc108; color: white; }
+        .btn-primary:hover { background: #ffc109; }
+        .btn-secondary { background: #6c757d; color: white; }
+        .btn-danger { background: #dc3545; color: white; }
+        .btn-success { background: #28a745; color: white; }
+        .btn-warning { background: #ffc107; color: #000; }
+        .btn-small { padding: 6px 12px; font-size: 12px; }
+        
+        .tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 2px solid #dee2e6;
+        }
+        .tab {
+            flex: 1;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .tab:hover { background: #e9ecef; }
+        .tab.active { background: white; border-bottom: 3px solid #ffc107; }
+        .tab.hidden { display: none; }
+        
+        .tab-content { display: none; padding: 30px; }
+        .tab-content.active { display: block; }
+        
+        .auth-forms {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .form-box {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+        }
+        .form-box h3 { margin-bottom: 20px; color: #2c3e50; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #495057;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .menu-card {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        .menu-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .menu-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .menu-card-content { padding: 20px; }
+        .menu-card h3 { margin-bottom: 10px; color: #2c3e50; }
+        .menu-card p { color: #6c757d; margin-bottom: 10px; font-size: 14px; }
+        .menu-card .price {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ffc107;
+            margin: 10px 0;
+        }
+        .category-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .category-appetizers { background: #e3f2fd; color: #1976d2; }
+        .category-main-courses { background: #fff3e0; color: #f57c00; }
+        .category-dessert { background: #fce4ec; color: #c2185b; }
+        .category-drinks { background: #e8f5e9; color: #388e3c; }
+        
+        .card-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .message {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        .message.success { background: #d4edda; color: #155724; }
+        .message.error { background: #f8d7da; color: #721c24; }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+        .modal.active { display: flex; align-items: center; justify-content: center; padding: 20px; }
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 30px;
+            cursor: pointer;
+            color: #6c757d;
+        }
+        .modal-body { padding: 40px; }
+        .modal-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+        .modal-title { font-size: 2em; margin-bottom: 10px; }
+        .modal-description { color: #6c757d; margin-bottom: 20px; line-height: 1.6; }
+        .rating-summary {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .reviews-list { margin-top: 30px; }
+        .review-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .review-user { font-weight: 600; }
+        .review-rating { color: #ffc107; }
+        .review-date { font-size: 12px; color: #6c757d; margin-top: 5px; }
+        
+        /* Cart */
+        .cart-item {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .cart-item-info h4 { margin-bottom: 5px; }
+        .cart-item-quantity {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .quantity-btn {
+            width: 30px;
+            height: 30px;
+            border: none;
+            background: #ffc107;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .cart-summary {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        .cart-total {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #ffc107;
+            margin: 15px 0;
+        }
+        
+        /* Orders */
+        .order-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #dee2e6;
+        }
+        .status-badge {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .status-pending { background: #fff3cd; color: #856404; }
+        .status-confirmed { background: #d1ecf1; color: #0c5460; }
+        .status-completed { background: #d4edda; color: #155724; }
+        .status-cancelled { background: #f8d7da; color: #721c24; }
+        .order-items { margin: 15px 0; }
+        .order-item {
+            padding: 10px 0;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #6c757d;
+        }
+        .empty-state h3 { margin-bottom: 10px; }
+        
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🍽️ Kazakh Restaurant</h1>
+            <div class="user-info">
+                <div id="cartBadge" class="cart-badge hidden" onclick="showTab('cart')">
+                    🛒
+                    <span id="cartCount" class="cart-count">0</span>
+                </div>
+                <span id="userDisplay" class="hidden"></span>
+                <button id="logoutBtn" class="btn btn-secondary btn-small hidden">Logout</button>
+            </div>
+        </header>
+
+        <div class="tabs">
+            <div id="authTabBtn" class="tab active" onclick="showTab('auth')">Login / Register</div>
+            <div class="tab" onclick="showTab('menu')">Menu</div>
+            <div id="cartTabBtn" class="tab hidden" onclick="showTab('cart')">Cart</div>
+            <div id="ordersTabBtn" class="tab hidden" onclick="showTab('orders')">My Orders</div>
+        </div>
+
+        <!-- Auth Tab -->
+        <div id="authTab" class="tab-content active">
+            <div id="authMessage"></div>
+            <div class="auth-forms">
+                <div class="form-box">
+                    <h3>Register</h3>
+                    <form id="registerForm">
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input type="text" id="regName" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" id="regEmail" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input type="password" id="regPassword" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Role</label>
+                            <select id="regRole">
+                                <option value="user">User</option>
+                                <option value="admin">Admin</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width:100%">Register</button>
+                    </form>
+                </div>
+
+                <div class="form-box">
+                    <h3>Login</h3>
+                    <form id="loginForm">
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" id="loginEmail" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input type="password" id="loginPassword" required>
+                        </div>
+                        <button type="submit" class="btn btn-success" style="width:100%">Login</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Menu Tab -->
+        <div id="menuTab" class="tab-content">
+            <div id="menuMessage"></div>
+            
+            <div class="form-box" id="menuFormBox" style="display:none; max-width:600px; margin-bottom:30px">
+                <h3 id="menuFormTitle">Add Menu Item (Admin Only)</h3>
+                <form id="menuForm">
+                    <input type="hidden" id="editMenuId">
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" id="menuName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea id="menuDescription" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Price (₸)</label>
+                        <input type="number" id="menuPrice" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Category</label>
+                        <select id="menuCategory" required>
+                            <option value="">Select category</option>
+                            <option value="Appetizers">Appetizers</option>
+                            <option value="Main Courses">Main Courses</option>
+                            <option value="Dessert">Dessert</option>
+                            <option value="Drinks">Drinks</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Image URL</label>
+                        <input type="url" id="menuImageUrl">
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width:100%">Save</button>
+                </form>
+            </div>
+
+            <div class="menu-grid" id="menuList"></div>
+        </div>
+
+        <!-- Cart Tab -->
+        <div id="cartTab" class="tab-content">
+            <h2>Shopping Cart</h2>
+            <div id="cartMessage"></div>
+            <div id="cartItems"></div>
+            <div id="cartSummary" class="cart-summary hidden">
+                <h3>Order Summary</h3>
+                <div class="cart-total">Total: <span id="cartTotal">0</span> ₸</div>
+                <button onclick="placeOrder()" class="btn btn-success" style="width:100%">Place Order</button>
+            </div>
+        </div>
+
+        <!-- Orders Tab -->
+        <div id="ordersTab" class="tab-content">
+            <h2>My Orders</h2>
+            <div id="ordersMessage"></div>
+            <div id="ordersList"></div>
+        </div>
+    </div>
+
+    <!-- Modal for Menu Item Details -->
+    <div id="menuModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal()">&times;</span>
+            <div class="modal-body">
+                <img id="modalImage" class="modal-image" src="" alt="">
+                <h2 id="modalTitle" class="modal-title"></h2>
+                <span id="modalCategory" class="category-badge"></span>
+                <div id="modalPrice" class="price"></div>
+                <p id="modalDescription" class="modal-description"></p>
+                
+                <div id="addToCartSection" class="hidden">
+                    <div class="form-group">
+                        <label>Quantity</label>
+                        <input type="number" id="modalQuantity" value="1" min="1" style="width:100px">
+                    </div>
+                    <button onclick="addToCartFromModal()" class="btn btn-primary">Add to Cart</button>
+                </div>
+
+                <div id="adminActionsModal" class="hidden" style="margin-top:20px">
+                    <button onclick="editMenuItemFromModal()" class="btn btn-warning">Edit</button>
+                    <button onclick="deleteMenuItemFromModal()" class="btn btn-danger">Delete</button>
+                </div>
+
+                <div class="rating-summary">
+                    <div>
+                        <strong>Average Rating:</strong>
+                        <span id="modalAvgRating">0</span> ⭐
+                    </div>
+                    <div>
+                        <strong>Total Reviews:</strong>
+                        <span id="modalReviewCount">0</span>
+                    </div>
+                </div>
+
+                <div class="reviews-list">
+                    <h3>Reviews</h3>
+                    
+                    <div id="reviewFormSection" class="hidden" style="margin-bottom:20px">
+                        <div class="form-box">
+                            <h4>Write a Review</h4>
+                            <form id="reviewFormModal" onsubmit="submitReview(event)">
+                                <div class="form-group">
+                                    <label>Rating (1-5)</label>
+                                    <input type="number" id="reviewRating" min="1" max="5" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Comment</label>
+                                    <textarea id="reviewComment" required minlength="5" maxlength="500"></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Submit Review</button>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <div id="modalReviews"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:3000/api';
+        let token = localStorage.getItem('token');
+        let currentUser = null;
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        let currentMenuItem = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (token) checkAuth();
+            loadMenuItems();
+            updateCartUI();
+        });
+
+        async function checkAuth() {
+            try {
+                const res = await fetch(`${API_URL}/auth/me`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (res.ok) {
+                    const data = await res.json();
+                    currentUser = data.user;
+                    updateUI();
+                } else {
+                    logout();
+                }
+            } catch (err) {
+                logout();
+            }
+        }
+
+        function updateUI() {
+            if (currentUser) {
+                document.getElementById('userDisplay').textContent = `${currentUser.name} (${currentUser.role})`;
+                document.getElementById('userDisplay').classList.remove('hidden');
+                document.getElementById('logoutBtn').classList.remove('hidden');
+                document.getElementById('cartBadge').classList.remove('hidden');
+                document.getElementById('cartTabBtn').classList.remove('hidden');
+                document.getElementById('ordersTabBtn').classList.remove('hidden');
+                document.getElementById('authTabBtn').classList.add('hidden');
+                
+                if (currentUser.role === 'admin') {
+                    document.getElementById('menuFormBox').style.display = 'block';
+                }
+                
+                showTab('menu');
+            }
+        }
+
+        function logout() {
+            token = null;
+            currentUser = null;
+            localStorage.removeItem('token');
+            localStorage.removeItem('cart');
+            cart = [];
+            document.getElementById('userDisplay').classList.add('hidden');
+            document.getElementById('logoutBtn').classList.add('hidden');
+            document.getElementById('cartBadge').classList.add('hidden');
+            document.getElementById('cartTabBtn').classList.add('hidden');
+            document.getElementById('ordersTabBtn').classList.add('hidden');
+            document.getElementById('authTabBtn').classList.remove('hidden');
+            document.getElementById('menuFormBox').style.display = 'none';
+            updateCartUI();
+            showTab('auth');
+        }
+
+        document.getElementById('logoutBtn').onclick = logout;
+
+        // Register
+        document.getElementById('registerForm').onsubmit = async (e) => {
+            e.preventDefault();
+            try {
+                const res = await fetch(`${API_URL}/auth/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        name: document.getElementById('regName').value,
+                        email: document.getElementById('regEmail').value,
+                        password: document.getElementById('regPassword').value,
+                        role: document.getElementById('regRole').value
+                    })
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    showMessage('authMessage', 'Registration successful!', 'success');
+                    token = data.token;
+                    localStorage.setItem('token', token);
+                    currentUser = data.user;
+                    updateUI();
+                    document.getElementById('registerForm').reset();
+                } else {
+                    showMessage('authMessage', data.error || 'Registration failed', 'error');
+                }
+            } catch (err) {
+                showMessage('authMessage', err.message, 'error');
+            }
+        };
+
+        // Login
+        document.getElementById('loginForm').onsubmit = async (e) => {
+            e.preventDefault();
+            try {
+                const res = await fetch(`${API_URL}/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: document.getElementById('loginEmail').value,
+                        password: document.getElementById('loginPassword').value
+                    })
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    showMessage('authMessage', 'Login successful!', 'success');
+                    token = data.token;
+                    localStorage.setItem('token', token);
+                    currentUser = data.user;
+                    updateUI();
+                    document.getElementById('loginForm').reset();
+                } else {
+                    showMessage('authMessage', data.error || 'Login failed', 'error');
+                }
+            } catch (err) {
+                showMessage('authMessage', err.message, 'error');
+            }
+        };
+
+        // Menu Items
+        async function loadMenuItems() {
+            try {
+                const res = await fetch(`${API_URL}/menu-items`);
+                const data = await res.json();
+                displayMenuItems(data.data || []);
+            } catch (err) {
+                showMessage('menuMessage', 'Failed to load menu items', 'error');
+            }
+        }
+
+        function displayMenuItems(items) {
+            const list = document.getElementById('menuList');
+            if (items.length === 0) {
+                list.innerHTML = '<p>No menu items found</p>';
+                return;
+            }
+            list.innerHTML = items.map(item => `
+                <div class="menu-card" onclick="openMenuModal('${item._id}')">
+                    <img src="${item.imageUrl}" alt="${item.name}">
+                    <div class="menu-card-content">
+                        <span class="category-badge category-${item.category.toLowerCase().replace(' ', '-')}">${item.category}</span>
+                        <h3>${item.name}</h3>
+                        <p>${item.description.substring(0, 100)}...</p>
+                        <div class="price">${item.price} ₸</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Modal Functions
+        async function openMenuModal(id) {
+            currentMenuItem = id;
+            try {
+                const [itemRes, reviewsRes] = await Promise.all([
+                    fetch(`${API_URL}/menu-items/${id}`),
+                    fetch(`${API_URL}/reviews/menu-item/${id}`)
+                ]);
+                
+                const itemData = await itemRes.json();
+                const reviewsData = await reviewsRes.json();
+                
+                const item = itemData.data;
+                
+                document.getElementById('modalImage').src = item.imageUrl;
+                document.getElementById('modalTitle').textContent = item.name;
+                document.getElementById('modalCategory').textContent = item.category;
+                document.getElementById('modalCategory').className = `category-badge category-${item.category.toLowerCase().replace(' ', '-')}`;
+                document.getElementById('modalPrice').textContent = `${item.price} ₸`;
+                document.getElementById('modalDescription').textContent = item.description;
+                document.getElementById('modalAvgRating').textContent = reviewsData.averageRating || '0';
+                document.getElementById('modalReviewCount').textContent = reviewsData.count || '0';
+                
+                // Show/hide sections based on user
+                if (currentUser) {
+                    document.getElementById('addToCartSection').classList.remove('hidden');
+                    document.getElementById('reviewFormSection').classList.remove('hidden');
+                    if (currentUser.role === 'admin') {
+                        document.getElementById('adminActionsModal').classList.remove('hidden');
+                    } else {
+                        document.getElementById('adminActionsModal').classList.add('hidden');
+                    }
+                } else {
+                    document.getElementById('addToCartSection').classList.add('hidden');
+                    document.getElementById('reviewFormSection').classList.add('hidden');
+                    document.getElementById('adminActionsModal').classList.add('hidden');
+                }
+                
+                displayModalReviews(reviewsData.data || []);
+                document.getElementById('menuModal').classList.add('active');
+            } catch (err) {
+                console.error('Failed to load item details', err);
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('menuModal').classList.remove('active');
+            currentMenuItem = null;
+        }
+
+        function displayModalReviews(reviews) {
+            const container = document.getElementById('modalReviews');
+            if (reviews.length === 0) {
+                container.innerHTML = '<p style="color:#6c757d">No reviews yet. Be the first to review!</p>';
+                return;
+            }
+            container.innerHTML = reviews.map(r => {
+                const isOwner = currentUser && currentUser.id === r.user._id;
+                const isAdmin = currentUser && currentUser.role === 'admin';
+                const canEdit = isOwner || isAdmin;
+                
+                return `
+                    <div class="review-item" id="review-${r._id}">
+                        <div class="review-header">
+                            <div>
+                                <div class="review-user">${r.user.name}</div>
+                                <div class="review-rating">${'⭐'.repeat(r.rating)}</div>
+                            </div>
+                            ${canEdit ? `
+                                <div style="display:flex; gap:5px">
+                                    ${isOwner ? `<button class="btn btn-warning btn-small" onclick="editReview('${r._id}', ${r.rating}, '${r.comment.replace(/'/g, "\\'")}')">Edit</button>` : ''}
+                                    <button class="btn btn-danger btn-small" onclick="deleteReview('${r._id}')">Delete</button>
+                                </div>
+                            ` : ''}
+                        </div>
+                        <div id="review-text-${r._id}">${r.comment}</div>
+                        <div class="review-date">${new Date(r.createdAt).toLocaleDateString()}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        async function addToCartFromModal() {
+            if (!currentUser) {
+                showMessage('cartMessage', 'Please login to add items to cart', 'error');
+                return;
+            }
+
+            const quantity = parseInt(document.getElementById('modalQuantity').value);
+            
+            try {
+                const res = await fetch(`${API_URL}/menu-items/${currentMenuItem}`);
+                const data = await res.json();
+                const item = data.data;
+                
+                const existingItem = cart.find(i => i.menuItem === currentMenuItem);
+                if (existingItem) {
+                    existingItem.quantity += quantity;
+                } else {
+                    cart.push({
+                        menuItem: currentMenuItem,
+                        name: item.name,
+                        price: item.price,
+                        quantity: quantity
+                    });
+                }
+                
+                localStorage.setItem('cart', JSON.stringify(cart));
+                updateCartUI();
+                closeModal();
+                showMessage('cartMessage', 'Item added to cart!', 'success');
+                showTab('cart');
+            } catch (err) {
+                console.error('Failed to add to cart', err);
+            }
+        }
+
+        async function editMenuItemFromModal() {
+            try {
+                const res = await fetch(`${API_URL}/menu-items/${currentMenuItem}`);
+                const result = await res.json();
+                const item = result.data;
+                
+                document.getElementById('editMenuId').value = currentMenuItem;
+                document.getElementById('menuName').value = item.name;
+                document.getElementById('menuDescription').value = item.description;
+                document.getElementById('menuPrice').value = item.price;
+                document.getElementById('menuCategory').value = item.category;
+                document.getElementById('menuImageUrl').value = item.imageUrl;
+                document.getElementById('menuFormTitle').textContent = 'Edit Menu Item';
+                
+                closeModal();
+                showTab('menu');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } catch (err) {
+                showMessage('menuMessage', 'Failed to load item', 'error');
+            }
+        }
+
+        async function deleteMenuItemFromModal() {
+            if (!confirm('Delete this item?')) return;
+            try {
+                const res = await fetch(`${API_URL}/menu-items/${currentMenuItem}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    showMessage('menuMessage', data.message, 'success');
+                    closeModal();
+                    loadMenuItems();
+                } else {
+                    showMessage('menuMessage', data.error, 'error');
+                }
+            } catch (err) {
+                showMessage('menuMessage', err.message, 'error');
+            }
+        }
+
+        // Reviews Functions
+        async function submitReview(e) {
+            e.preventDefault();
+            
+            if (!currentUser) {
+                alert('Please login to write a review');
+                return;
+            }
+
+            const rating = document.getElementById('reviewRating').value;
+            const comment = document.getElementById('reviewComment').value;
+
+            try {
+                const res = await fetch(`${API_URL}/reviews`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        menuItem: currentMenuItem,
+                        rating: parseInt(rating),
+                        comment: comment
+                    })
+                });
+
+                const data = await res.json();
+                
+                if (res.ok) {
+                    alert('Review submitted successfully!');
+                    document.getElementById('reviewFormModal').reset();
+                    // Reload reviews
+                    const reviewsRes = await fetch(`${API_URL}/reviews/menu-item/${currentMenuItem}`);
+                    const reviewsData = await reviewsRes.json();
+                    document.getElementById('modalAvgRating').textContent = reviewsData.averageRating || '0';
+                    document.getElementById('modalReviewCount').textContent = reviewsData.count || '0';
+                    displayModalReviews(reviewsData.data || []);
+                } else {
+                    alert(data.error || 'Failed to submit review');
+                }
+            } catch (err) {
+                alert('Error submitting review');
+                console.error(err);
+            }
+        }
+
+        async function editReview(reviewId, currentRating, currentComment) {
+            const newRating = prompt('New rating (1-5):', currentRating);
+            if (!newRating || newRating < 1 || newRating > 5) return;
+
+            const newComment = prompt('New comment:', currentComment);
+            if (!newComment || newComment.length < 5) return;
+
+            try {
+                const res = await fetch(`${API_URL}/reviews/${reviewId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        rating: parseInt(newRating),
+                        comment: newComment
+                    })
+                });
+
+                const data = await res.json();
+                
+                if (res.ok) {
+                    alert('Review updated successfully!');
+                    // Reload reviews
+                    const reviewsRes = await fetch(`${API_URL}/reviews/menu-item/${currentMenuItem}`);
+                    const reviewsData = await reviewsRes.json();
+                    document.getElementById('modalAvgRating').textContent = reviewsData.averageRating || '0';
+                    document.getElementById('modalReviewCount').textContent = reviewsData.count || '0';
+                    displayModalReviews(reviewsData.data || []);
+                } else {
+                    alert(data.error || 'Failed to update review');
+                }
+            } catch (err) {
+                alert('Error updating review');
+                console.error(err);
+            }
+        }
+
+        async function deleteReview(reviewId) {
+            if (!confirm('Are you sure you want to delete this review?')) return;
+
+            try {
+                const res = await fetch(`${API_URL}/reviews/${reviewId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                const data = await res.json();
+                
+                if (res.ok) {
+                    alert('Review deleted successfully!');
+                    // Reload reviews
+                    const reviewsRes = await fetch(`${API_URL}/reviews/menu-item/${currentMenuItem}`);
+                    const reviewsData = await reviewsRes.json();
+                    document.getElementById('modalAvgRating').textContent = reviewsData.averageRating || '0';
+                    document.getElementById('modalReviewCount').textContent = reviewsData.count || '0';
+                    displayModalReviews(reviewsData.data || []);
+                } else {
+                    alert(data.error || 'Failed to delete review');
+                }
+            } catch (err) {
+                alert('Error deleting review');
+                console.error(err);
+            }
+        }
+
+        // Menu CRUD (Admin)
+        document.getElementById('menuForm').onsubmit = async (e) => {
+            e.preventDefault();
+            const id = document.getElementById('editMenuId').value;
+            const method = id ? 'PUT' : 'POST';
+            const url = id ? `${API_URL}/menu-items/${id}` : `${API_URL}/menu-items`;
+            
+            try {
+                const res = await fetch(url, {
+                    method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        name: document.getElementById('menuName').value,
+                        description: document.getElementById('menuDescription').value,
+                        price: document.getElementById('menuPrice').value,
+                        category: document.getElementById('menuCategory').value,
+                        imageUrl: document.getElementById('menuImageUrl').value
+                    })
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    showMessage('menuMessage', data.message, 'success');
+                    document.getElementById('menuForm').reset();
+                    document.getElementById('editMenuId').value = '';
+                    document.getElementById('menuFormTitle').textContent = 'Add Menu Item (Admin Only)';
+                    loadMenuItems();
+                } else {
+                    showMessage('menuMessage', data.error, 'error');
+                }
+            } catch (err) {
+                showMessage('menuMessage', err.message, 'error');
+            }
+        };
+
+        // Cart Functions
+        function updateCartUI() {
+            const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cartCount').textContent = count;
+            
+            if (cart.length === 0) {
+                document.getElementById('cartCount').textContent = '0';
+            }
+        }
+
+        function displayCart() {
+            const container = document.getElementById('cartItems');
+            const summary = document.getElementById('cartSummary');
+            
+            if (cart.length === 0) {
+                container.innerHTML = '<div class="empty-state"><h3>Your cart is empty</h3><p>Add some delicious Kazakh dishes!</p></div>';
+                summary.classList.add('hidden');
+                return;
+            }
+            
+            let total = 0;
+            container.innerHTML = cart.map((item, index) => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                return `
+                    <div class="cart-item">
+                        <div class="cart-item-info">
+                            <h4>${item.name}</h4>
+                            <p>${item.price} ₸ each</p>
+                        </div>
+                        <div class="cart-item-quantity">
+                            <button class="quantity-btn" onclick="updateQuantity(${index}, -1)">-</button>
+                            <span>${item.quantity}</span>
+                            <button class="quantity-btn" onclick="updateQuantity(${index}, 1)">+</button>
+                            <button class="btn btn-danger btn-small" onclick="removeFromCart(${index})">Remove</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            document.getElementById('cartTotal').textContent = total.toFixed(2);
+            summary.classList.remove('hidden');
+        }
+
+        function updateQuantity(index, change) {
+            cart[index].quantity += change;
+            if (cart[index].quantity <= 0) {
+                cart.splice(index, 1);
+            }
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartUI();
+            displayCart();
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartUI();
+            displayCart();
+        }
+
+        async function placeOrder() {
+            if (!token) {
+                showMessage('cartMessage', 'Please login to place an order', 'error');
+                return;
+            }
+
+            if (cart.length === 0) {
+                showMessage('cartMessage', 'Cart is empty', 'error');
+                return;
+            }
+
+            try {
+                const res = await fetch(`${API_URL}/orders`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        items: cart.map(item => ({
+                            menuItem: item.menuItem,
+                            quantity: item.quantity
+                        }))
+                    })
+                });
+
+                const data = await res.json();
+                if (res.ok) {
+                    showMessage('cartMessage', 'Order placed successfully!', 'success');
+                    cart = [];
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                    updateCartUI();
+                    displayCart();
+                    setTimeout(() => showTab('orders'), 1500);
+                } else {
+                    showMessage('cartMessage', data.error, 'error');
+                }
+            } catch (err) {
+                showMessage('cartMessage', 'Failed to place order', 'error');
+            }
+        }
+
+        // Orders
+        async function loadOrders() {
+            if (!token) return;
+            
+            try {
+                const res = await fetch(`${API_URL}/orders`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await res.json();
+                displayOrders(data.data || []);
+            } catch (err) {
+                showMessage('ordersMessage', 'Failed to load orders', 'error');
+            }
+        }
+
+        function displayOrders(orders) {
+            const container = document.getElementById('ordersList');
+            
+            if (orders.length === 0) {
+                container.innerHTML = '<div class="empty-state"><h3>No orders yet</h3><p>Place your first order!</p></div>';
+                return;
+            }
+            
+            container.innerHTML = orders.map(order => `
+                <div class="order-card">
+                    <div class="order-header">
+                        <div>
+                            <strong>Order #${order._id.slice(-6)}</strong>
+                            <br><small>${new Date(order.createdAt).toLocaleString()}</small>
+                        </div>
+                        <div>
+                            <span class="status-badge status-${order.status}">${order.status.toUpperCase()}</span>
+                            ${currentUser && currentUser.role === 'admin' ? `
+                                <select onchange="updateOrderStatus('${order._id}', this.value)" style="margin-left:10px">
+                                    <option value="">Change Status</option>
+                                    <option value="pending">Pending</option>
+                                    <option value="confirmed">Confirmed</option>
+                                    <option value="completed">Completed</option>
+                                    <option value="cancelled">Cancelled</option>
+                                </select>
+                            ` : ''}
+                        </div>
+                    </div>
+                    <div class="order-items">
+                        ${order.items.map(item => `
+                            <div class="order-item">
+                                <span>${item.name} x${item.quantity}</span>
+                                <span>${(item.price * item.quantity).toFixed(2)} ₸</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div style="text-align:right; padding-top:15px; border-top:2px solid #dee2e6;">
+                        <strong>Total: ${order.totalAmount.toFixed(2)} ₸</strong>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function updateOrderStatus(orderId, status) {
+            if (!status) return;
+            
+            try {
+                const res = await fetch(`${API_URL}/orders/${orderId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ status })
+                });
+                
+                const data = await res.json();
+                if (res.ok) {
+                    showMessage('ordersMessage', 'Order status updated', 'success');
+                    loadOrders();
+                } else {
+                    showMessage('ordersMessage', data.error, 'error');
+                }
+            } catch (err) {
+                showMessage('ordersMessage', 'Failed to update status', 'error');
+            }
+        }
+
+        // Utilities
+        function showTab(tabName) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            
+            const tabBtn = tabName === 'auth' ? document.getElementById('authTabBtn') :
+                           tabName === 'cart' ? document.getElementById('cartTabBtn') :
+                           tabName === 'orders' ? document.getElementById('ordersTabBtn') :
+                           event?.target;
+            
+            if (tabBtn) tabBtn.classList.add('active');
+            document.getElementById(tabName + 'Tab').classList.add('active');
+            
+            if (tabName === 'cart') displayCart();
+            if (tabName === 'orders') loadOrders();
+        }
+
+        function showMessage(elementId, text, type) {
+            const el = document.getElementById(elementId);
+            el.className = `message ${type}`;
+            el.textContent = text;
+            setTimeout(() => el.textContent = '', 5000);
+        }
+
+        // Close modal on outside click
+        document.getElementById('menuModal').onclick = function(e) {
+            if (e.target === this) closeModal();
+        };
+    </script>
+</body>
+</html>
