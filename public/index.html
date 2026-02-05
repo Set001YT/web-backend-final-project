@@ -364,14 +364,7 @@
                         </div>
                         <div class="form-group">
                             <label>Password</label>
-                            <input type="password" id="regPassword" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Role</label>
-                            <select id="regRole">
-                                <option value="user">User</option>
-                                <option value="admin">Admin</option>
-                            </select>
+                            <input type="password" id="regPassword" required minlength="6">
                         </div>
                         <button type="submit" class="btn btn-primary" style="width:100%">Register</button>
                     </form>
@@ -517,7 +510,9 @@
     </div>
 
     <script>
-        const API_URL = 'https://kazakh-restaurant-asset-iglikov.onrender.com/api';
+        const API_URL = window.location.hostname === 'localhost' 
+        ? 'http://localhost:3000/api' 
+        : `${window.location.origin}/api`;
         let token = localStorage.getItem('token');
         let currentUser = null;
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -593,23 +588,20 @@
                     body: JSON.stringify({
                         name: document.getElementById('regName').value,
                         email: document.getElementById('regEmail').value,
-                        password: document.getElementById('regPassword').value,
-                        role: document.getElementById('regRole').value
+                        password: document.getElementById('regPassword').value
+                        // role removed - all users register as 'user' by default
                     })
                 });
                 const data = await res.json();
                 if (res.ok) {
-                    showMessage('authMessage', 'Registration successful!', 'success');
-                    token = data.token;
-                    localStorage.setItem('token', token);
-                    currentUser = data.user;
-                    updateUI();
+                    showMessage('authMessage', '✅ Registration successful! Please login.', 'success');
                     document.getElementById('registerForm').reset();
+                    // Don't auto-login, require manual login for security
                 } else {
                     showMessage('authMessage', data.error || 'Registration failed', 'error');
                 }
             } catch (err) {
-                showMessage('authMessage', err.message, 'error');
+                showMessage('authMessage', 'Network error. Please try again.', 'error');
             }
         };
 
