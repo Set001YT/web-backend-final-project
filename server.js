@@ -8,9 +8,10 @@ const authRoutes = require('./routes/auth');
 const menuItemRoutes = require('./routes/menuItems');
 const reviewRoutes = require('./routes/reviews');
 const orderRoutes = require('./routes/orders');
+const adminRoutes = require('./routes/admin');
 
 const app = express();
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 3000;
 
 // Connect to MongoDB
 connectDB();
@@ -25,6 +26,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/menu-items', menuItemRoutes);
 app.use('/api/reviews', reviewRoutes);
 app.use('/api/orders', orderRoutes);
+app.use('/api/admin', adminRoutes);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
@@ -52,4 +54,5 @@ app.use((err, req, res, next) => {
 // Start server
 app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
+  console.log(`📡 API available at http://localhost:${PORT}/api`);
 });
