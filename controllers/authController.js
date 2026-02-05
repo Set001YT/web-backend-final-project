@@ -13,7 +13,14 @@ const generateToken = (userId) => {
 // Register new user
 const register = async (req, res) => {
   try {
-    const { name, email, password, role } = req.body;
+    const { name, email, password } = req.body;
+
+    // Validation
+    if (!name || !email || !password) {
+      return res.status(400).json({ 
+        error: 'Name, email, and password are required' 
+      });
+    }
 
     // Check if user already exists
     const existingUser = await User.findOne({ email });
@@ -23,12 +30,12 @@ const register = async (req, res) => {
       });
     }
 
-    // Create new user (password will be hashed automatically by User model)
+    // Create new user with default role 'user'
     const user = new User({
       name,
       email,
       password,
-      role: role || 'user' // Default to 'user' if not specified
+      role: 'user'  // Always 'user' for public registration
     });
 
     await user.save();
@@ -47,6 +54,7 @@ const register = async (req, res) => {
       }
     });
   } catch (error) {
+    console.error('Registration error:', error);
     if (error.name === 'ValidationError') {
       return res.status(400).json({ 
         error: 'Validation failed', 
