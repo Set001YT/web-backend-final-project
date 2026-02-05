@@ -532,14 +532,14 @@ Frontend is served from the same backend via `express.static('public')`, so it d
 
 ## Live Demo
 
-**Application URL:** https://kazakh-restaurant-asset-iglikov.onrender.com/  
-**API Base URL:** https://kazakh-restaurant-asset-iglikov.onrender.com/api  
+**Application URL:** https://kazakh-restaurant-9nty.onrender.com/  
+**API Base URL:** https://kazakh-restaurant-9nty.onrender.com/api  
 **GitHub Repository:** https://github.com/Set001YT/web-backend-final-project
 
 **Test Credentials:**
 - Admin: admin@test.com / admin123
 - User: user@test.com / user123
-
+*Note: Free tier may take 30-60 seconds to wake up from sleep after inactivity.*
 ---
 
 ## Author
