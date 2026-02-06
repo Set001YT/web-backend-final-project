@@ -181,7 +181,7 @@ Customer orders with items, quantities, and status tracking.
 | PUT (status) | ❌ | ❌ | ✅ |
 | DELETE | ❌ | ❌ | ✅ |
 | **Admin Promotion** |
-| GET (a list of users | ❌ | ❌ | ✅ |
+| GET (a list of users) | ❌ | ❌ | ✅ |
 | POST (promote) | ❌ | ❌ | ✅ |
 | POST (demote) | ❌ | ❌ | ✅ |
 
