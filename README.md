@@ -26,11 +26,13 @@ kazakh-menu-api/
 │   ├── authController.js        # Auth logic (register, login)
 │   ├── menuItemController.js    # Menu CRUD logic
 │   ├── reviewController.js      # Review CRUD logic
+│   ├── adminController.js       # Admin promotion logic
 │   └── orderController.js       # Order management logic
 ├── routes/
 │   ├── auth.js                  # Auth routes
 │   ├── menuItems.js             # Menu routes with RBAC
 │   ├── reviews.js               # Review routes
+│   ├── admin.js                 # Admin routes
 │   └── orders.js                # Order routes
 ├── middleware/
 │   ├── auth.js                  # JWT verification
@@ -42,6 +44,7 @@ kazakh-menu-api/
 ├── screenshots/                 # Screenshots of Postman tests
 ├── .gitignore
 ├── package.json                 # Dependencies
+├── Final Project(Admin Promotion).postman_collection.json   # Additional collection of exported tests
 └── Kazakh_Menu_API_Final_Project.postman_collection.json    # Collection of exported tests
 ```
 
@@ -177,6 +180,10 @@ Customer orders with items, quantities, and status tracking.
 | POST (create) | ❌ | ✅ | ✅ |
 | PUT (status) | ❌ | ❌ | ✅ |
 | DELETE | ❌ | ❌ | ✅ |
+| **Admin Promotion** |
+| GET (a list of users | ❌ | ❌ | ✅ |
+| POST (promote) | ❌ | ❌ | ✅ |
+| POST (demote) | ❌ | ❌ | ✅ |
 
 ### How Roles Are Handled
 
@@ -247,6 +254,12 @@ router.put('/reviews/:id', authenticate, updateReview);
 - `POST /api/orders` - Create order (authenticated)
 - `PUT /api/orders/:id` - Update order status (admin only)
 - `DELETE /api/orders/:id` - Delete order (admin only)
+
+
+### Admin promotion
+- `POST /api/admin/promote` - Grant the admin role to the user
+- `POST /api/admin/demote` - Revoke the admin role to the user
+- `GET  /api/admin/users` - Get a list of all users
 
 ---
 
@@ -351,14 +364,15 @@ Open `http://localhost:Your_Port` in browser for the interactive Single Page App
 
 ## Testing with Postman
 
-### Import Collection
-1. Import `Kazakh_Menu_API_Final_Project.postman_collection.json`
-2. Collection contains **22 tests** in **5 folders**:
+### Import Collections
+1. Import `Kazakh_Menu_API_Final_Project.postman_collection.json` and `Final Project(Admin Promotion).postman_collection.json`
+2. Collections contains **25 tests** in **6 folders**:
    - **1. Auth** (3 tests)
    - **2. Menu Items (Public)** (2 tests)
    - **3. Menu Items (Admin Protected)** (6 tests)
    - **4. Reviews** (4 tests)
    - **5. Orders** (7 tests)
+   - **6. Admin Promotion** (3 tests)
 
 ### Test Flow
 
@@ -435,6 +449,18 @@ Headers: Authorization: Bearer <admin_token>
 {
   "status": "confirmed"
 }
+
+
+```
+**Step 6: Admin Promotion**
+```json
+// Promote the admin role
+POST /api/admin/promote
+Headers: Authorization: Bearer <admin_token>
+{
+  "email": "user2@test.com"
+}
+
 ```
 
 ### Test Results Summary
@@ -446,7 +472,8 @@ Headers: Authorization: Bearer <admin_token>
 | Menu (Admin) | 6 | 3 | 3 |
 | Reviews | 4 | 3 | 1 |
 | Orders | 7 | 5 | 2 |
-| **Total** | **22** | **16** | **6** |
+| Admin Promotion | 3 | 3 | 0 |
+| **Total** | **25** | **19** | **6** |
 
 **Expected failures demonstrate proper RBAC:**
 - User cannot create/update/delete menu items (403)
@@ -532,13 +559,14 @@ Frontend is served from the same backend via `express.static('public')`, so it d
 
 ## Live Demo
 
-**Application URL:** https://kazakh-restaurant-9nty.onrender.com/  
-**API Base URL:** https://kazakh-restaurant-9nty.onrender.com/api  
+**Application URL:** https://kazakh-restaurant-asset-iglikov.onrender.com/  
+**API Base URL:** https://kazakh-restaurant-asset-iglikov.onrender.com/api  
 **GitHub Repository:** https://github.com/Set001YT/web-backend-final-project
 
 **Test Credentials:**
 - Admin: admin@test.com / admin123
-- User: user@test.com / user123
+- User1: user@test.com / user123
+- User2: user2@test.com /user2134
 *Note: Free tier may take 30-60 seconds to wake up from sleep after inactivity.*
 ---
 
