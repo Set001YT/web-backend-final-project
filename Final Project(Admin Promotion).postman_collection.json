@@ -1,0 +1,125 @@
+{
+  "info": {
+    "_postman_id": "993832f3-7437-446f-b5e6-d01c6ae1069a",
+    "name": "Final Project(Admin Promotion)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "45837906",
+    "_collection_link": "https://go.postman.co/collection/45837906-993832f3-7437-446f-b5e6-d01c6ae1069a?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "POST - Promote the admin role",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTc1ZTIwZTMwNjllNDU5YTE4NzFiZTciLCJpYXQiOjE3NzAzNjc2NjgsImV4cCI6MTc3Mjk1OTY2OH0.slCGeLULG6aLwgtGEqZWaGtTi3wCcbfZiM1nZQs9tms",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"email\" :\"user2@test.com\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://kazakh-restaurant-asset-iglikov.onrender.com/api/admin/promote",
+          "protocol": "https",
+          "host": [
+            "kazakh-restaurant-asset-iglikov",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "api",
+            "admin",
+            "promote"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "POST - Demote the admin role",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTc1ZTIwZTMwNjllNDU5YTE4NzFiZTciLCJpYXQiOjE3NzAzNjc2NjgsImV4cCI6MTc3Mjk1OTY2OH0.slCGeLULG6aLwgtGEqZWaGtTi3wCcbfZiM1nZQs9tms",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"email\": \"user2@test.com\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://kazakh-restaurant-asset-iglikov.onrender.com/api/admin/demote",
+          "protocol": "https",
+          "host": [
+            "kazakh-restaurant-asset-iglikov",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "api",
+            "admin",
+            "demote"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET - Get a list of all users",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTc1ZTIwZTMwNjllNDU5YTE4NzFiZTciLCJpYXQiOjE3NzAzNjc2NjgsImV4cCI6MTc3Mjk1OTY2OH0.slCGeLULG6aLwgtGEqZWaGtTi3wCcbfZiM1nZQs9tms",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://kazakh-restaurant-asset-iglikov.onrender.com/api/admin/users",
+          "protocol": "https",
+          "host": [
+            "kazakh-restaurant-asset-iglikov",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "api",
+            "admin",
+            "users"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
