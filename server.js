@@ -10,7 +10,7 @@ const reviewRoutes = require('./routes/reviews');
 const orderRoutes = require('./routes/orders');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 
 // Connect to MongoDB
 connectDB();
@@ -52,5 +52,4 @@ app.use((err, req, res, next) => {
 // Start server
 app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
-  console.log(`📡 API available at http://localhost:${PORT}/api`);
 });
