@@ -361,6 +361,23 @@ Open `http://localhost:Your_Port` in browser for the interactive Single Page App
 - Dynamic UI based on user role
 
 ---
+## QA Testing
+
+This project was also tested from a QA perspective using Postman.
+
+- Tested REST API endpoints (GET, POST, PUT, DELETE)
+- Verified HTTP status codes (200, 201, 400, 401, 403)
+- Validated JSON response structure and data correctness
+- Tested authentication (JWT) and role-based access control (RBAC)
+- Covered positive and negative scenarios (valid/invalid input, unauthorized access)
+- Performed testing of core business flows: authentication, menu CRUD, reviews, orders
+
+### Example Test Scenarios
+- Unauthorized request → 401 Unauthorized
+- User attempting admin action → 403 Forbidden
+- Invalid input data → validation error
+  
+---
 
 ## Testing with Postman
 
